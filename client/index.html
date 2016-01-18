@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="FormBuilderApp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.min.js"></script>
+    <script src="app.js"></script>
+    <script src="config.js"></script>
+    <script src="views/header/header.controller.js"></script>
+    <script src="views/sidebar/sidebar.controller.js"></script>
+    <script src="services/UserService.js"></script>
+    <script src="services/FormService.js"></script>
+    <script src="services/FieldService.js"></script>
+    <script src="views/login/login.controller.js"></script>
+    <script src="views/register/register.controller.js"></script>
+    <script src="views/profile/profile.controller.js"></script>
+    <script src="views/form/form.controller.js"></script>
+    <title>Form Maker</title>
+</head>
+
+<body>
+    <div class="container">
+        <div ng-include = "'views/header/header.view.html'"></div>
+        
+        <div class="row">
+            <div class="col-md-2" ng-include = "'views/sidebar/sidebar.view.html'"></div>
+            
+            <div class="col-md-10" ng-view></div>
+            
+        </div>
+    </div>
+
+</body>
+</html>
