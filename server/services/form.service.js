@@ -18,21 +18,15 @@ module.exports = function(app, formModel) {
     app.delete('/api/assignment/form/:formId', function(req, res) {
         // removes a form object whose id is equal to the formId path parameter
         var index = req.params.formId;
+        console.log(index);
         formModel.deleteForm(index);
         res.json(formModel.findAllForms());
     });
     
     app.post('/api/assignment/user/:userId/form', function(req, res) {
-        // !!! creates a new form whose properties are the same as the form object embedded 
-        // in the HTTP request's body and the form belongs to a user whose id is equal to 
-        // the userId path parameter. The form object's id is initially null since it is a 
-        // new record. The id of the new form should be set dynamically using Node.js guid 
-        // or node-uuid libraries. These will eventually be set by the database when they 
-        // are inserted into a collection
-        var inputForm = req.body;
-        inputForm.userId = req.params.userId;
-        inputForm.id = Math.floor((1 + Math.random()) * 0*10000).toString(16).substring(1);
-        var newForm = formModel.createForm(inputForm);
+        var newForm = req.body;
+        userId = req.params.userId;
+        var newForm = formModel.createForm(userId, newForm);
         res.json(newForm);
     });
 
@@ -43,8 +37,7 @@ module.exports = function(app, formModel) {
         // in the request's body
         var formId = req.params.formId;
         var newForm = req.body;
-        formModel.updateForm(formId, newForm);
-        res.json(formModel.findAllForms());
+        res.json(formModel.updateForm(formId, newForm));
     });
     
     

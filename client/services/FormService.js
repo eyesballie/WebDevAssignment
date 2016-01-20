@@ -7,7 +7,6 @@
         
     function FormService($http, $q) {
         var service = {
-            getAllForms: getAllForms,
             createFormForUser: createFormForUser,
             findAllFormsForUser: findAllFormsForUser,
             deleteFormById: deleteFormById,
@@ -15,7 +14,10 @@
         };
         return service;
         
+        
         function createFormForUser(userId, form) {
+            console.log("Hello from FormService createFormForUser");
+            console.log(form);
             var deferred = $q.defer();
             $http.post("/api/assignment/user/" + userId + "/form", form)
                 .success(function(response) {
@@ -25,6 +27,7 @@
         };
         
         function findAllFormsForUser(userId) {
+            console.log("hello from FormService findAllFormsForUser");
             var deferred = $q.defer();
             $http.get("/api/assignment/user/" + userId + "/form")
                 .success(function(response) {
@@ -33,7 +36,10 @@
             return deferred.promise;
         };
         
+        
         function deleteFormById(formId) {
+            console.log("hello from FormService deleteFormById");
+            console.log(formId);
             var deferred = $q.defer();
             $http.delete("/api/assignment/form/" + formId)
                 .success(function(response) {
@@ -51,16 +57,6 @@
             return deferred.promise;
         };
         
-        /** Function to generate Guid, from instructor Jose Annunziato.**/
-        function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
-        };
     }
     
 })();

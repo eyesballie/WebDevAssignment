@@ -1,4 +1,5 @@
 var mock = require("./form.mock.json");
+var uuid = require('node-uuid');
 
 module.exports = function(app) {
     var service = {
@@ -17,9 +18,13 @@ module.exports = function(app) {
     };
     return service;
     
-    function createForm(newform){
-        mock.push(form);
-        return mock;
+    function createForm(userId, newForm){
+        console.log("Hello from Model CreateForm");
+        newForm.userId = userId;
+        newForm.id = uuid.v1();
+        console.log(newForm);
+        mock.push(newForm);
+        return newForm;
     };
     
     function findAllForms(){
@@ -38,12 +43,17 @@ module.exports = function(app) {
         for (var i = 0; i < mock.length; i++) {
             if (mock[i].id == id) {
                 mock[i].title = form.title;
+                mock[i].userId = form.userId
                 mock[i].fields = form.fields;
+                break;
             }
         }
+        return mock;
     }
     
     function deleteForm(id){
+        console.log("hello from Model deleteForm");
+        console.log(id);
         for (var i = 0; i < mock.length; i++) {
             if (mock[i].id == id) {
                 mock.splice(i, 1);
@@ -60,19 +70,27 @@ module.exports = function(app) {
     }
     
     function findFormsByUserId(userId){
+        console.log("Hello from Model Form findFormsByUserId");
+        var forms = [];
         for (var i = 0; i < mock.length; i++) {
             if (mock[i].userId == userId) {
-                return mock[i];
+                forms.push(mock[i]);
             }
         }
+        return forms;
     }
     
     function getFieldsByFormId(formId) {
+        console.log("Hello from FormModel getFieldsByFormId");
+        var fields = [];
         for (var i = 0; i < mock.length; i++) {
             if (mock[i].id == formId) {
-                return mock[i].fields;
+                fields = mock[i].fields;
+                break;
             }
         }
+        console.log(fields);
+        return fields;
     }
     
     function getFieldFromForm(formId, fieldId) {
@@ -88,6 +106,7 @@ module.exports = function(app) {
     }
     
     function deleteFieldFromForm(formId, fieldId) {
+        console.log("Hello from FormModel deleteFieldFromForm");
         for (var i = 0; i < mock.length; i++) {
             if (mock[i].id == formId) {
                 for (var j = 0; j < mock[i].fields.length; j++) {
@@ -95,16 +114,24 @@ module.exports = function(app) {
                         mock[i].fields.splice(j, 1);
                     }
                 }
+                return mock[i].fields;
             }
         }
     }
     
     function createFieldInForm(formId, newField) {
+        console.log("Hello from FormModel createFieldInForm");
+        var fields = [];
         for (var i = 0; i < mock.length; i++) {
             if (mock[i].id == formId) {
+                newField.id = uuid.v1();
                 mock[i].fields.push(newField);
+                fields = mock[i].fields;
+                break;
             }
         }
+        console.log(fields);
+        return fields;
     }
     
     function updateFieldInForm(formId, fieldId, newField) {

@@ -3,30 +3,32 @@
         .module("FormBuilderApp")
         .controller("ProfileController", ProfileController);
     
-    function ProfileController($rootScope, $location, UserService) {
+    function ProfileController($scope, $rootScope, $location, UserService) {
         var model = this;
+        $scope.user = $rootScope.user;
         model.$location = $location;
         
         model.update = update;
+        
+        console.log("Hello from ProfileController");
         
         function update() {
             var newUser = {
                 "username": model.username,
                 "password": model.password,
-                "email": model.email,
                 "firstName": model.firstname,
-                "lastName": model.lastname
+                "lastName": model.lastname,
+                "email": model.email
             }
             UserService
                 .updateUser($rootScope.user.id, newUser)
                 .then(function(newUser) {
+                    console.log("From ProfileController: User is updated");
+                    console.log(newUser);
                     $rootScope.user = newUser;
-                    model.username = $rootScope.user.username;
-                    model.password = $rootScope.user.password;
-                    model.firstName = $rootScope.user.firstName;
-                    model.lastName = $rootScope.user.lastName;
-                    model.email = $rootScope.user.email;
+                    $scope.user = newUser;
                 });
+            
         }
         
     }

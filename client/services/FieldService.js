@@ -4,19 +4,20 @@
     
     angular
         .module("FormBuilderApp")
-        .factory("FormService", FormService);
+        .factory("FieldService", FieldService);
         
-    function FormService($http, $q) {
+    function FieldService($http, $q) {
         var service = {
-            getAllForms: getAllForms,
-            createFormForUser: createFormForUser,
-            findAllFormsForUser: findAllFormsForUser,
-            deleteFormById: deleteFormById,
-            updateFormById: updateFormById
+            createFieldForForm: createFieldForForm,
+            getFieldsForForm: getFieldsForForm,
+            getFieldForForm: getFieldForForm,
+            deleteFieldFromForm: deleteFieldFromForm,
+            updateField: updateField
         };
         return service;
         
         function createFieldForForm(formId, field) {
+            console.log("Hello from FeildService createFieldForForm");
             var deferred = $q.defer();
             $http.post("/api/assignment/form/" + formId + "/field", field)
                 .success(function(response) {
@@ -26,6 +27,7 @@
         };
         
         function getFieldsForForm(formId) {
+            console.log("Hello from FeildService getFieldsForForm");
             var deferred = $q.defer();
             $http.get("/api/assignment/form/" + formId + "/field")
                 .success(function(response) {
@@ -60,16 +62,5 @@
                 });
             return deferred.promise;
         };
-        
-        /** Function to generate Guid, from instructor Jose Annunziato.**/
-        function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
-        }
     }
 })();

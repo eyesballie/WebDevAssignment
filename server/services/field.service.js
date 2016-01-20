@@ -3,6 +3,7 @@ module.exports = function(app, formModel) {
     app.get('/api/assignment/form/:formId/field', function(req, res) {
         // returns an array of fields belonging to a form object whose id is equal to 
         // the formId path parameter
+        console.log("Hello from get('/api/assignment/form/:formId/field')");
         var formId = req.params.formId;
         res.json(formModel.getFieldsByFormId(formId));
     });
@@ -18,10 +19,10 @@ module.exports = function(app, formModel) {
     app.delete('/api/assignment/form/:formId/field/:fieldId', function(req, res) {
         // removes a field object whose id is equal to the fieldId path parameter and 
         // belonging to a form object whose id is equal to the formId path parameter
-        var fieldId = req.params.fieldId;
+        console.log("Hello from delete('/api/assignment/form/:formId/field/:fieldId')");
         var formId = req.params.formId;
-        formModel.deleteFieldFromForm(formId, fieldId);
-        res.json(formModel.getFieldsByFormId(formId));
+        var fieldId = req.params.fieldId;
+        res.json(formModel.deleteFieldFromForm(formId, fieldId));
     });
     
     app.post('/api/assignment/form/:formId/field', function(req, res) {
@@ -31,11 +32,10 @@ module.exports = function(app, formModel) {
         // new record. The id of the new form field should be set dynamically using 
         // Node.js guid or node-uuid libraries. These will eventually be set by the database 
         // when they are inserted into a collection
+        console.log("Hello from post('/api/assignment/form/:formId/field')");
         var newField = req.body;
-        newField.id = Math.floor((1 + Math.random()) * 0*10000).toString(16).substring(1);
         var formId = req.params.formId;
-        formModel.createFieldInForm(formId, newField);
-        res.json(formModel.getFieldsByFormId(formId));
+        res.json(formModel.createFieldInForm(formId, newField));
     });
 
 

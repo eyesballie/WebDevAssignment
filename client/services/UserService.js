@@ -16,8 +16,10 @@
         
         function findUserByUsernameAndPassword(username, password) {
             var deferred = $q.defer();
-            $http.get("/api/assignment/user?username=" + username + "&password=" + password)
+            console.log("Hello from client service, username is " + username + " password is " + password);
+            $http.get("/api/assignment/user/username=" + username + "&password=" + password)
                 .success(function(response) {
+                    console.log(response);
                     deferred.resolve(response);
                 });  
             return deferred.promise;
@@ -33,7 +35,6 @@
         };
         
         function createUser(newUser) {
-            console.log("Entering createUser");
             var deferred = $q.defer();
             $http.post("/api/assignment/user", newUser)
                 .success(function(response) {
@@ -53,6 +54,7 @@
         
         function updateUser(id, newUser) {
             var deferred = $q.defer();
+            console.log("hello from updateUser in UserService");
             $http.put("/api/assignment/user/" + id, newUser)
                 .success(function(response) {
                     deferred.resolve(response);
@@ -60,15 +62,5 @@
             return deferred.promise;
         }; 
         
-        /** Function to generate Guid, from instructor Jose Annunziato.**/
-        function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
-        };
     }
 })();

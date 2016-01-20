@@ -3,7 +3,7 @@
         .module("FormBuilderApp")
         .controller("RegisterController", RegisterController);
     
-    function RegisterController($rootScope, $location, UserService) {
+    function RegisterController($scope, $rootScope, $location, UserService) {
         var model = this;
         model.$location = $location;
         
@@ -11,25 +11,21 @@
         
         function register() {
             if (input_isValid()) {
-                console.log("User is validated");
                 var newUser = {
                     "username": model.username,
                     "password": model.password,
                     "email": model.email,
                     "firstName": "",
                     "lastName": ""
-                };
-                console.log("User is created");
+                }
+                
                 UserService
                     .createUser(newUser)
-                    .then(function(user) {
-                        $rootScope.user = user;
-                        console.log("first printing");
-                        console.log($rootScope.user);
+                    .then(function(newUser) {
+                        $scope.user = newUser;
+                        $rootScope.user = newUser;
                         $location.path("/profile");
                     });
-                console.log("second printing");
-                console.log(newUser);
             }
         }
 

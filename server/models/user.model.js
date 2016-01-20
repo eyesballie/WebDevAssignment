@@ -1,12 +1,5 @@
-//var mock = require("./user.mock.json");
-var mock = [
-    {"id": 123, "firstName": "Alice", 	"lastName": "Wonderland",	"username": "alice", 	"password": "alice"},
-	{"id": 234, "firstName": "Bob",	"lastName": "Hope", 		"username": "bob", 	"password": "bob"},
-	{"id": 345, "firstName": "Charlie",	"lastName": "Brown", 		"username": "charlie", "password": "charlie"},
-	{"id": 456, "firstName": "Dan",	"lastName": "Craig", 		"username": "dan", 	"password": "dan"},
-	{"id": 567, "firstName": "Edward",	"lastName": "Norton", 		"username": "ed",	"password": "ed"}
-]
-
+var mock = require("./user.mock.json");
+var uuid = require('node-uuid');
 
 module.exports = function(app) {
     var api = {
@@ -21,9 +14,8 @@ module.exports = function(app) {
     return api;
     
     function createUser(newuser){
-        console.log("hello from model");
         var newuser = {
-			id : "001",
+			id : uuid.v1(),
 			username : newuser.username,
 			password : newuser.password,
 			email : newuser.email,
@@ -31,7 +23,7 @@ module.exports = function(app) {
 			lastName : newuser.lastName
 		};
         mock.push(newuser);
-        return mock;
+        return newuser;
     };
     
     function findAllUsers(){
@@ -54,8 +46,10 @@ module.exports = function(app) {
                 mock[i].firstName = user.firstName;
                 mock[i].lastName = user.lastName;
                 mock[i].email = user.email;
+                break;
             }
         }
+        return mock[i];
     }
     
     function deleteUser(id){
@@ -75,11 +69,15 @@ module.exports = function(app) {
     }
     
     function findUserByCredentials(credentials) {
+        console.log("Hello from findUserByCredentials in model");
+        var result = null;
         for (var i = 0; i < mock.length; i++) {
             if (mock[i].username == credentials.username &&
                 mock[i].password == credentials.password) {
-                return mock[i];
+                result = mock[i];
+                break;
             }
         }
+        return result;
     }
 }
